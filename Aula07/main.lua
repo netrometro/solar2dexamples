@@ -1,6 +1,6 @@
 --[[
   AULA 02
-  Animação
+  Animação e transições
 ]]--
 local C = require('Constants')
 
@@ -32,9 +32,19 @@ local sequencesGlobe = {
   }
 }
 
-local globeRotation = display.newSprite( sheetGlobe, sequencesGlobe )
-globeRotation.x = C.CW
-globeRotation.y = C.CH
-globeRotation:scale(4,4)
-globeRotation:play() -- Sequence default "normal" (a última)
+local globe = display.newSprite( sheetGlobe, sequencesGlobe )
+globe.x = C.CW
+globe.y = C.CH
+globe:scale(4,4)
+globe:play() -- Sequence default "normal" (a última)
 --globeRotation:play("fast")
+
+function globe.back()
+  transition.to( globe, { time=1500, alpha=1, x=C.CW, y=0, onComplete=globe.go } )
+end
+
+function globe.go()
+  transition.to( globe, { time=1500, alpha=0, x=C.CW, y=C.H, onComplete=globe.back } )
+end
+
+globe.go()
